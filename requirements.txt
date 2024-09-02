@@ -1,3 +1,5 @@
 torchxrayvision
 torch
 torchvision
+requests
+pyyaml

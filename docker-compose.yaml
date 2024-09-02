@@ -21,7 +21,7 @@ services:
     volumes:
       - .:/app
     working_dir: /app
-    command: python app.py
+    command: python main.py
     environment:
       - ORTHANC_URL=http://orthanc:8042
     links:
