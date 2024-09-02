@@ -1,3 +1,2 @@
 Dicom_Files_Directory: "files"
-OrthanC_Url: "http://localhost:8042"
 Results_File: "results.json"

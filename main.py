@@ -7,7 +7,7 @@ import json, torch, torchvision
 with open('config.yaml') as cfg:
     config = yaml.safe_load(cfg)
 
-ORTHAN_URL = config['OrthanC_Url']
+ORTHAN_URL = os.getenv('ORTHANC_URL')
 DICOM_DIR = config['Dicom_Files_Directory']
 RESULTS_JSON = config['Results_File']
 
@@ -22,7 +22,8 @@ model = xrv.models.DenseNet(weights="densenet121-res224-all")
 for file in os.listdir(DICOM_DIR):
     # Enviando arquivos DICOM para o ORTHANC
     with open(os.path.join(DICOM_DIR, file), 'rb') as f:
-        response = requests.post(ORTHAN_URL, files={'file':f})
+        requestUrl = ORTHAN_URL + "/instances"
+        response = requests.post(requestUrl, files={'file':f})
         print(f"Enviado arquivo: {file} para url: {ORTHAN_URL}: status: {response.status_code}")
 
     # Preparando a imagem
