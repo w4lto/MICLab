@@ -1,11 +1,6 @@
-FROM orthancteam/orthanc:latest
-
-WORKDIR /etc/orthanc
-
-COPY orthanc.json /etc/orthanc/orthanc.json
-
-RUN mkdir -p /var/lib/orthanc
-
-EXPOSE 4242 8042
-
-CMD ["orthanc", "/etc/orthanc/orthanc.json"]
+FROM python:3.10-slim
+WORKDIR /app
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . /app
+CMD ["python", "app.py"]

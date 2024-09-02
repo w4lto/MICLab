@@ -1,0 +1,4 @@
+requests
+torchxrayvision
+torch
+torchvision

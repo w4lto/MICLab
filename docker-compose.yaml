@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  orthanc:
+    image: jodogne/orthanc:latest
+    container_name: orthanc
+    ports:
+      - "4242:4242"
+      - "8042:8042"
+    volumes:
+      - orthanc_data:/var/lib/orthanc/db
+      - ./orthanc.json:/etc/orthanc/orthanc.json
+
+  python_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: python_app
+    depends_on:
+      - orthanc
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: python app.py
+    environment:
+      - ORTHANC_URL=http://orthanc:8042
+    links:
+      - orthanc
+
+volumes:
+  orthanc_data:
