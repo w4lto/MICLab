@@ -1,0 +1,38 @@
+{
+    "SOPClassUID": "1.2.840.10008.5.1.4.1.1.88.22",
+    "SOPInstanceUID": "b2a1fa8c-ce01-4a7d-9c34-ce58de71a8d7",
+    "StudyInstanceUID": "b55645bb-77a6-4305-8788-c0c3f7edfdab",
+    "SeriesInstanceUID": "b3a7ab2d-a09f-4f11-b60f-e60b6ed4288a",
+    "ContentSequence": [
+        {
+            "ValueType": "TEXT",
+            "TextValue": "Model output scores for the DICOM image."
+        },
+        {
+            "ValueType": "NUMERIC",
+            "NumericValues": [
+                [
+                    0.5667794346809387,
+                    0.5348703265190125,
+                    0.5278329849243164,
+                    0.5129029750823975,
+                    0.5314230918884277,
+                    0.5087199211120605,
+                    0.5055016279220581,
+                    0.5072259902954102,
+                    0.5431171655654907,
+                    0.5130459070205688,
+                    0.5236349105834961,
+                    0.5225615501403809,
+                    0.5547451972961426,
+                    0.508865237236023,
+                    0.5008749961853027,
+                    0.5783345699310303,
+                    0.5981121063232422,
+                    0.5557656288146973
+                ]
+            ]
+        }
+    ],
+    "Conclusion": "Model processed the DICOM image and generated prediction scores."
+}

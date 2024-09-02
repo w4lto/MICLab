@@ -3,3 +3,6 @@ torch
 torchvision
 requests
 pyyaml
+pydicom
+scikit-image
+uuid

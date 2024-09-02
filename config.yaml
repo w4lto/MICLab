@@ -1,2 +1,2 @@
 Dicom_Files_Directory: "files"
-Results_File: "results.json"
+Results_Dir: "results"
