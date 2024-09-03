@@ -21,14 +21,34 @@ print(f"Results dir: {RESULTS_DIR}")
 # Inicializando modelo de classificacao
 model = xrv.models.DenseNet(weights="densenet121-res224-all")
 
-for file in os.listdir(DICOM_DIR):
+def List_DCM_Files(base_dir:str):
+    found_files = []
+    for root, dirs, files in os.walk("testes"):
+        for file in files:
+            if file.endswith(".dcm"):
+                ids = root.split(os.sep)
+                instance = ids[-3].replace('id_','')
+                study = ids[-2].replace('Study_','')
+                serie = ids[-1].replace('Series_','')
+                found_files.append({
+                    'sop':instance,
+                    'study':study,
+                    'serie':serie,
+                    'name':file,
+                    'path':os.path.join(root, file)
+                })
+    return found_files
+
+dcm_files = List_DCM_Files(DICOM_DIR)
+
+for file in dcm_files:
     # Enviando arquivos DICOM para o ORTHANC
-    file_path = os.path.join(DICOM_DIR, file)
+    file_path = file['path']
     print(f"Arquivo: {file_path}")
     with open(file_path, 'rb') as f:
         requestUrl = ORTHAN_URL + "/instances"
         response = requests.post(requestUrl, files={'file':f}, auth=HTTPBasicAuth('admin','admin'))
-        print(f"Enviado arquivo: {file} para url: {ORTHAN_URL}: status: {response.status_code}")
+        print(f"Enviado arquivo: {file['name']} para url: {ORTHAN_URL}: status: {response.status_code}")
 
         # Preparando a imagem
         img = skimage.io.imread(file_path)
@@ -53,9 +73,9 @@ for file in os.listdir(DICOM_DIR):
          
         sr_json = {
             "SOPClassUID": "1.2.840.10008.5.1.4.1.1.88.22",
-            "SOPInstanceUID": str(uuid.uuid4()),
-            "StudyInstanceUID": str(uuid.uuid4()),
-            "SeriesInstanceUID": str(uuid.uuid4()),
+            "SOPInstanceUID": file['sop'],
+            "StudyInstanceUID": file['study'],
+            "SeriesInstanceUID": file['serie'],
             "ContentSequence": [
                 {
                     "ValueType": "TEXT",
@@ -69,7 +89,7 @@ for file in os.listdir(DICOM_DIR):
             "Conclusion": "Model processed the DICOM image and generated prediction scores."
         }
         
-        results_filename = f"{os.path.splitext(file)[0]}_results.json"
+        results_filename = f"{os.path.splitext(file['name'])[0]}_results.json"
         results_path = os.path.join(RESULTS_DIR,results_filename)
          
         print(f"Salvando resultados no arquivo: {results_filename}")
