@@ -4,7 +4,6 @@ import requests
 from requests.auth import HTTPBasicAuth
 import yaml
 import json, torch, torchvision, skimage
-import uuid
 
 with open('config.yaml') as cfg:
     config = yaml.safe_load(cfg)
